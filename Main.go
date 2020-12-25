@@ -30,7 +30,7 @@ type Meeting struct {
 
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb+srv://tej:tpa4401@first-bvv78.gcp.mongodb.net/Appointy?retryWrites=true&w=majority"))
+	client, err := mongo.NewClient(options.Client().ApplyURI("<URL HERE>"))
 if err != nil {
 	log.Fatal(err)
 }
@@ -133,8 +133,6 @@ collection1 := client.Database("Appointy").Collection("persons")
 			Title2 := meeting.Title2
 			timestamp := time.Now()
 			meeting.Timestamp = time.Now()
-			// q := r.FormValue("q")
-			// fmt.Println(r.Body)
 			fmt.Println(meeting)
 			ctx, _ = context.WithTimeout(context.Background(), 5*time.Second)
 			res, err := collection.InsertOne(ctx, bson.M{"Id":Id,
@@ -146,19 +144,6 @@ collection1 := client.Database("Appointy").Collection("persons")
 			id := res.InsertedID
 			fmt.Print(id)
 			for i := 0; i < len(meeting.Participants); i++ {
-			// 	ctx,_ = context.WithTimeout(context.Background(), 30*time.Second)
-			// cur, err := collection.Find(ctx,bson.M{"Name": meeting.Participants[i].Name,"Email":meeting.Participants[i].Email,"RSVP":meeting.Participants[i].RSVP} )
-			// if err != nil { log.Fatal(err) }
-			// defer cur.Close(ctx)
-			// for cur.Next(ctx) {
-			//    var result bson.M
-			//    err := cur.Decode(&result)
-			//    if err != nil { log.Fatal(err) }
-			//    do something with result....
-			// }
-			// if err := cur.Err(); err != nil {
-			//   log.Fatal(err)
-			// }
 				person := Person{meeting.Participants[i].Name,meeting.Participants[i].Email,meeting.Participants[i].RSVP,[]int{meeting.Id}}
 				result, _ := collection1.InsertOne(ctx, person)
 				id1 := result.InsertedID
